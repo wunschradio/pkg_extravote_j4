@@ -218,7 +218,7 @@ class Extravote extends CMSPlugin implements SubscriberInterface
                     } else {
                         $article->introtext = preg_replace_callback($regex, array($this,'plgContentExtraVoteReplacer'), $article->introtext);
                     }
-                } elseif (stripos($article->text, 'extravote')) {
+                } elseif (stripos($article->text, 'extravote') !== false) {
                     $article->text = preg_replace_callback($regex, array($this,'plgContentExtraVoteReplacer'), $article->text);
                 }
             }
@@ -230,7 +230,7 @@ class Extravote extends CMSPlugin implements SubscriberInterface
                     $article->introtext = preg_replace($regex, '', $article->introtext);
                 } else {
                     $this->article_id = $article->id;
-                    if ($this->view == 'article' && $strposText) {
+                    if ($this->view == 'article' && $strposText !== false) {
                         $article->text = preg_replace_callback($regex, array($this,'plgContentExtraVoteReplacer'), $article->text);
                     } elseif($strposIntro) {
                         $article->introtext = preg_replace_callback($regex, array($this,'plgContentExtraVoteReplacer'), $article->introtext);
@@ -249,7 +249,7 @@ class Extravote extends CMSPlugin implements SubscriberInterface
         return $article;
     }
 
-    protected function plgContentExtraVoteReplacer(&$matches)
+    protected function plgContentExtraVoteReplacer($matches)
     {
         $db	 = $this->getDatabase();
         $cid = 0;
